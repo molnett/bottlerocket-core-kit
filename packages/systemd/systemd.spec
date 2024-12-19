@@ -3,7 +3,7 @@
 
 Name: %{_cross_os}systemd
 Version: 252.22
-Release: 1%{?dist}
+Release: 1.%{?dist}
 Summary: System and Service Manager
 License: GPL-2.0-or-later AND GPL-2.0-only AND LGPL-2.1-or-later
 URL: https://www.freedesktop.org/wiki/Software/systemd
@@ -90,6 +90,12 @@ BuildRequires: %{_cross_os}libseccomp-devel
 BuildRequires: %{_cross_os}libselinux-devel
 BuildRequires: %{_cross_os}libuuid-devel
 BuildRequires: %{_cross_os}libxcrypt-devel
+BuildRequires: %{_cross_os}libjson-c-devel
+BuildRequires: %{_cross_os}libdevmapper-devel
+BuildRequires: %{_cross_os}cryptsetup-devel
+BuildRequires: %{_cross_os}systemd-devel
+BuildRequires: %{_cross_os}libtss2-devel
+
 Requires: %{_cross_os}kmod
 Requires: %{_cross_os}libacl
 Requires: %{_cross_os}libattr
@@ -101,7 +107,10 @@ Requires: %{_cross_os}libseccomp
 Requires: %{_cross_os}libselinux
 Requires: %{_cross_os}libuuid
 Requires: %{_cross_os}libxcrypt
-
+Requires: %{_cross_os}libjson-c
+Requires: %{_cross_os}libdevmapper
+Requires: %{_cross_os}cryptsetup
+Requires: %{_cross_os}libtss2
 %description
 %{summary}.
 
@@ -109,6 +118,15 @@ Requires: %{_cross_os}libxcrypt
 Summary: Files for console login using the System and Service Manager
 
 %description console
+%{summary}.
+
+%package cryptsetup
+Summary: Files for cryptsetup support in systemd
+Requires: %{name}
+Requires: %{_cross_os}cryptsetup
+Requires: %{_cross_os}libdevmapper
+
+%description cryptsetup
 %{summary}.
 
 %package devel
@@ -235,7 +253,8 @@ CONFIGURE_OPTS=(
  -Dpam=false
  -Dpwquality=false
  -Dmicrohttpd=false
- -Dlibcryptsetup=false
+ -Dlibcryptsetup=true
+ -Dlibcryptsetup-plugins=true
  -Dlibcurl=false
  -Didn=false
  -Dlibidn2=false
@@ -247,7 +266,7 @@ CONFIGURE_OPTS=(
  -Dopenssl=false
  -Dp11kit=false
  -Dlibfido2=false
- -Dtpm2=false
+ -Dtpm2=true
  -Delfutils=false
  -Dzlib=false
  -Dbzip2=false
@@ -312,6 +331,7 @@ rm -f %{buildroot}%{_cross_libdir}/systemd/network/*
 rm -f %{buildroot}%{_cross_libdir}/systemd/{system,user}/default.target
 rm -f %{buildroot}%{_cross_libdir}/systemd/{system,user}/multi-user.target
 rm -f %{buildroot}%{_cross_libdir}/systemd/{system,user}/graphical.target
+rm -f %{buildroot}%{_cross_bindir}/systemd-cryptenroll
 
 # Ensure /proc/sys/fs/binfmt_misc mount is wanted by sysinit.target,
 # since we exclude the automount unit.
@@ -458,6 +478,11 @@ install -p -m 0644 %{S:4} %{buildroot}%{_cross_factorydir}%{_cross_sysconfdir}/i
 %exclude %{_cross_unitdir}/systemd-resolved.service
 %exclude %{_cross_unitdir}/sysinit.target.wants/systemd-ask-password-console.path
 %exclude %{_cross_unitdir}/multi-user.target.wants/systemd-ask-password-wall.path
+%exclude %{_cross_libdir}/systemd/systemd-cryptsetup
+%exclude %{_cross_libdir}/systemd/system-generators/systemd-cryptsetup-generator
+%exclude %{_cross_unitdir}/cryptsetup.target
+%exclude %{_cross_unitdir}/cryptsetup-pre.target
+%exclude %{_cross_unitdir}/remote-cryptsetup.target
 
 %files devel
 %{_cross_libdir}/libsystemd.so
@@ -514,5 +539,15 @@ install -p -m 0644 %{S:4} %{buildroot}%{_cross_factorydir}%{_cross_sysconfdir}/i
 %{_cross_datadir}/dbus-1/system.d/org.freedesktop.resolve1.conf
 %exclude %{_cross_bindir}/systemd-resolve
 %exclude %{_cross_sbindir}/resolvconf
+
+%files cryptsetup
+%{_cross_libdir}/cryptsetup/libcryptsetup-token-systemd-tpm2.so
+%{_cross_bindir}/systemd-cryptenroll
+%{_cross_libdir}/systemd/systemd-cryptsetup
+%{_cross_libdir}/systemd/system-generators/systemd-cryptsetup-generator
+%{_cross_unitdir}/cryptsetup.target
+%{_cross_unitdir}/cryptsetup-pre.target
+%{_cross_unitdir}/remote-cryptsetup.target
+%dir %{_cross_libdir}/systemd/system-generators
 
 %changelog

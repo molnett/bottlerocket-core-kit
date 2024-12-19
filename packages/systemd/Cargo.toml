@@ -9,7 +9,8 @@ build = "../build.rs"
 path = "../packages.rs"
 
 [package.metadata.build-package]
-releases-url = "https://github.com/systemd/systemd-stable/releases"
+package-name = "systemd-cryptsetup"
+releases-url = "https://github.com/systemd/systemd-stable/archive"
 
 [[package.metadata.build-package.external-files]]
 url = "https://github.com/systemd/systemd-stable/archive/v252.22/systemd-stable-252.22.tar.gz"
@@ -25,3 +26,7 @@ libseccomp = { path = "../libseccomp" }
 libselinux = { path = "../libselinux" }
 libxcrypt = { path = "../libxcrypt" }
 util-linux = { path = "../util-linux" }
+cryptsetup = { path = "../cryptsetup" }
+device-mapper = { path = "../device-mapper" }
+libtss2 = { path = "../libtss2" }
+json-c = { path = "../json-c" }
