@@ -12,10 +12,7 @@ BuildRequires: %{_cross_os}glibc-devel
 Requires: %{_cross_os}glibc
 
 %description
-AWS-LC is a general-purpose cryptographic library maintained by the
-AWS Cryptography team for AWS and their customers. It іs based on code
-from the Google BoringSSL project and the OpenSSL project. This version
-includes FIPS support.
+%{summary}.
 
 %package devel
 Summary: Development files for %{name}
