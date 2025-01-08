@@ -1,6 +1,3 @@
-# Skip check-rpaths since we expect them for systemd.
-%global __brp_check_rpaths %{nil}
-
 Name: %{_cross_os}libtss2
 Version: 4.1.3
 Release: 1%{?dist}
