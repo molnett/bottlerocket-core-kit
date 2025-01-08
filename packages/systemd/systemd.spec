@@ -3,7 +3,7 @@
 
 Name: %{_cross_os}systemd
 Version: 252.22
-Release: 1.%{?dist}
+Release: 1%{?dist}
 Summary: System and Service Manager
 License: GPL-2.0-or-later AND GPL-2.0-only AND LGPL-2.1-or-later
 URL: https://www.freedesktop.org/wiki/Software/systemd
