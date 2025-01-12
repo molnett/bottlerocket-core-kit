@@ -16,7 +16,6 @@ BuildRequires: %{_cross_os}libuuid-devel
 BuildRequires: %{_cross_os}libpopt-devel
 BuildRequires: %{_cross_os}kernel-6.1-devel
 BuildRequires: %{_cross_os}libblkid-devel
-BuildRequires: %{_cross_os}systemd-devel
 BuildRequires: %{_cross_os}aws-lc-fips-devel
 BuildRequires: %{_cross_os}libargon2-devel
 
@@ -54,6 +53,7 @@ developing applications that use %{name}.
     --disable-veritysetup \
     --disable-integritysetup \
     --disable-nls \
+    --with-tmpfilesdir=%{_cross_libdir}/tmpfiles.d \
     --with-crypto_backend=openssl \
 
 %force_disable_rpath
