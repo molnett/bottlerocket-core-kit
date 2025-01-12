@@ -8,11 +8,16 @@ URL: https://github.com/aws/aws-lc
 Source0: https://github.com/aws/aws-lc/archive/AWS-LC-FIPS-%{version}/aws-lc-AWS-LC-FIPS-%{version}.tar.gz
 
 BuildRequires: %{_cross_os}glibc-devel
+BuildRequires: %{_cross_os}libstdc++
 
 Requires: %{_cross_os}glibc
+Requires: %{_cross_os}libstdc++
 
 %description
-%{summary}.
+AWS-LC is a general-purpose cryptographic library maintained by the
+AWS Cryptography team for AWS and their customers. It іs based on code
+from the Google BoringSSL project and the OpenSSL project. This version
+includes FIPS support.
 
 %package devel
 Summary: Development files for %{name}
@@ -60,8 +65,8 @@ rm -rf %{buildroot}%{_cross_libdir}/ssl/cmake
 
 %files
 %{_cross_attribution_file}
-%{_cross_libdir}/libcrypto.so.*
-%{_cross_libdir}/libssl.so.*
+%{_cross_libdir}/libcrypto.so*
+%{_cross_libdir}/libssl.so*
 %{_cross_bindir}/bssl
 %{_cross_bindir}/openssl
 

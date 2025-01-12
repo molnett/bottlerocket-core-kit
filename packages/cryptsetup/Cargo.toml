@@ -17,9 +17,9 @@ force-upstream = true
 
 [build-dependencies]
 glibc = { path = "../glibc" }
-device-mapper = { path = "../device-mapper" }
 json-c = { path = "../json-c" }
 util-linux = { path = "../util-linux" }
+device-mapper = { path = "../device-mapper" }
 libpopt = { path = "../libpopt" }
-systemd = { path = "../systemd" }
 aws-lc-fips = { path = "../aws-lc-fips" }
+libargon2 = { path = "../libargon2" }

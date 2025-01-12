@@ -18,6 +18,7 @@ BuildRequires: %{_cross_os}kernel-6.1-devel
 BuildRequires: %{_cross_os}libblkid-devel
 BuildRequires: %{_cross_os}systemd-devel
 BuildRequires: %{_cross_os}aws-lc-fips-devel
+BuildRequires: %{_cross_os}libargon2-devel
 
 Requires: %{_cross_os}libdevmapper
 Requires: %{_cross_os}libjson-c
@@ -26,6 +27,7 @@ Requires: %{_cross_os}libuuid
 Requires: %{_cross_os}libpopt
 Requires: %{_cross_os}systemd
 Requires: %{_cross_os}aws-lc-fips
+Requires: %{_cross_os}libargon2
 
 %description
 %{summary}.
@@ -33,6 +35,7 @@ Requires: %{_cross_os}aws-lc-fips
 %package devel
 Summary: Development files for cryptsetup
 Requires: %{name}
+Requires: %{_cross_os}libargon2-devel
 
 %description devel
 The %{name}-devel package contains libraries and header files for
@@ -45,11 +48,10 @@ developing applications that use %{name}.
 %cross_configure \
     --disable-asciidoc \
     --disable-ssh-token \
-    --disable-internal-argon2 \
-    --disable-internal-sse-argon2 \
+    --enable-libargon2 \
     --disable-pwquality \
-    --enable-static \
-    --enable-cryptsetup \
+    --disable-static \
+    --disable-cryptsetup \
     --disable-veritysetup \
     --disable-integritysetup \
     --disable-nls \
@@ -67,14 +69,12 @@ rm -rf %{buildroot}%{_cross_libdir}/tmpfiles.d/cryptsetup.conf
 
 %files
 %license COPYING COPYING.LGPL
-%{_cross_sbindir}/cryptsetup
 %{_cross_libdir}/libcryptsetup.so.*
+%{_cross_libdir}/libcryptsetup.so
 %{_cross_attribution_file}
 %exclude %{_cross_mandir}
 
 %files devel
-%{_cross_libdir}/libcryptsetup.so
-%{_cross_libdir}/libcryptsetup.a
 %{_cross_libdir}/pkgconfig/libcryptsetup.pc
 %{_cross_includedir}/libcryptsetup.h
 

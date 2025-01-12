@@ -75,6 +75,9 @@ Patch9013: 9013-sd-dhcp-lease-parse-multiple-domains-in-option-15.patch
 # it since prairiedog mounts /boot depending on the partition bank in use.
 Patch9014: 9014-meson-make-gpt-auto-generator-selectable-at-build-ti.patch
 
+# Local patch to fix OpenSSL error format strings.
+Patch9015: 9015-fix-openssl-error-format-strings.patch
+
 BuildRequires: gperf
 BuildRequires: intltool
 BuildRequires: meson
@@ -95,6 +98,7 @@ BuildRequires: %{_cross_os}libdevmapper-devel
 BuildRequires: %{_cross_os}cryptsetup-devel
 BuildRequires: %{_cross_os}systemd-devel
 BuildRequires: %{_cross_os}libtss2-devel
+BuildRequires: %{_cross_os}aws-lc-fips-devel
 
 Requires: %{_cross_os}kmod
 Requires: %{_cross_os}libacl
@@ -111,6 +115,8 @@ Requires: %{_cross_os}libjson-c
 Requires: %{_cross_os}libdevmapper
 Requires: %{_cross_os}cryptsetup
 Requires: %{_cross_os}libtss2
+Requires: %{_cross_os}aws-lc-fips
+
 %description
 %{summary}.
 
@@ -177,7 +183,6 @@ CONFIGURE_OPTS=(
  -Dldconfig=true
  -Dresolve=true
  -Defi=true
- -Dtpm=false
  -Denvironment-d=false
  -Dbinfmt=true
  -Drepart=true
@@ -263,7 +268,7 @@ CONFIGURE_OPTS=(
  -Dqrencode=false
  -Dgcrypt=false
  -Dgnutls=false
- -Dopenssl=false
+ -Dopenssl=true
  -Dp11kit=false
  -Dlibfido2=false
  -Dtpm2=true
@@ -478,6 +483,7 @@ install -p -m 0644 %{S:4} %{buildroot}%{_cross_factorydir}%{_cross_sysconfdir}/i
 %exclude %{_cross_unitdir}/systemd-resolved.service
 %exclude %{_cross_unitdir}/sysinit.target.wants/systemd-ask-password-console.path
 %exclude %{_cross_unitdir}/multi-user.target.wants/systemd-ask-password-wall.path
+%exclude %{_cross_libdir}/systemd/systemd-cryptenroll
 %exclude %{_cross_libdir}/systemd/systemd-cryptsetup
 %exclude %{_cross_libdir}/systemd/system-generators/systemd-cryptsetup-generator
 %exclude %{_cross_unitdir}/cryptsetup.target
@@ -542,7 +548,6 @@ install -p -m 0644 %{S:4} %{buildroot}%{_cross_factorydir}%{_cross_sysconfdir}/i
 
 %files cryptsetup
 %{_cross_libdir}/cryptsetup/libcryptsetup-token-systemd-tpm2.so
-%{_cross_bindir}/systemd-cryptenroll
 %{_cross_libdir}/systemd/systemd-cryptsetup
 %{_cross_libdir}/systemd/system-generators/systemd-cryptsetup-generator
 %{_cross_unitdir}/cryptsetup.target

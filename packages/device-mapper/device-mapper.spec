@@ -54,9 +54,9 @@ This package contains the device-mapper shared library, libdevmapper.
   --with-device-mode=0660 \
   --enable-pkgconfig \
   --enable-udev_sync \
-  --enable-dmeventd \
+  --disable-dmeventd \
   --disable-readline \
-  --disable-selinux \
+  --enable-selinux \
   --disable-cache_check_needs_check \
   --disable-lvmpolld \
   --disable-lvmlockd \
@@ -99,11 +99,11 @@ make install_device-mapper DESTDIR=%{buildroot} INSTALL="/usr/bin/install -p"
 # Remove unpackaged files
 rm -f %{buildroot}%{_cross_sbindir}/blkdeactivate
 rm -f %{buildroot}%{_cross_sbindir}/dmstats
+rm -rf %{buildroot}%{_cross_datadir}/man
 
 # Only install dmsetup related files
 install -d %{buildroot}%{_cross_sbindir}
 install -p -m 0755 libdm/dm-tools/dmsetup %{buildroot}%{_cross_sbindir}/dmsetup
-install -p -m 0755 daemons/dmeventd/dmeventd %{buildroot}%{_cross_sbindir}/dmeventd
 install -d %{buildroot}%{_cross_libdir}
 
 # Device mapper library
@@ -111,14 +111,8 @@ install -p -m 0755 libdm/ioctl/libdevmapper.so.1.02 %{buildroot}%{_cross_libdir}
 ln -s libdevmapper.so.1.02 %{buildroot}%{_cross_libdir}/libdevmapper.so.1
 ln -sf libdevmapper.so.1 %{buildroot}%{_cross_libdir}/libdevmapper.so
 
-# Device mapper event library
-install -p -m 0755 daemons/dmeventd/libdevmapper-event.so.1.02 %{buildroot}%{_cross_libdir}/
-ln -s libdevmapper-event.so.1.02 %{buildroot}%{_cross_libdir}/libdevmapper-event.so.1
-ln -sf libdevmapper-event.so.1 %{buildroot}%{_cross_libdir}/libdevmapper-event.so
-
 install -d %{buildroot}%{_cross_includedir}
 install -p -m 0644 libdm/libdevmapper.h %{buildroot}%{_cross_includedir}/
-install -p -m 0644 daemons/dmeventd/libdevmapper-event.h %{buildroot}%{_cross_includedir}/
 install -d %{buildroot}%{_cross_prefix}/lib/udev/rules.d
 install -p -m 0644 udev/10-dm.rules %{buildroot}%{_cross_prefix}/lib/udev/rules.d/
 install -p -m 0644 udev/13-dm-disk.rules %{buildroot}%{_cross_prefix}/lib/udev/rules.d/
@@ -127,16 +121,13 @@ install -p -m 0644 udev/95-dm-notify.rules %{buildroot}%{_cross_prefix}/lib/udev
 %files
 %license COPYING COPYING.LIB
 %{_cross_sbindir}/dmsetup
-%{_cross_sbindir}/dmeventd
 %{_cross_prefix}/lib/udev/rules.d/10-dm.rules
 %{_cross_prefix}/lib/udev/rules.d/13-dm-disk.rules
 %{_cross_prefix}/lib/udev/rules.d/95-dm-notify.rules
-%exclude %{_cross_mandir}
 
 %files -n %{_cross_os}libdevmapper
 %license COPYING COPYING.LIB
 %{_cross_libdir}/libdevmapper.so.*
-%{_cross_libdir}/libdevmapper-event.so.*
 
 %package -n %{_cross_os}libdevmapper-devel
 Summary: Development libraries and headers for device-mapper
@@ -148,10 +139,7 @@ the device-mapper libraries.
 
 %files -n %{_cross_os}libdevmapper-devel
 %{_cross_libdir}/libdevmapper.so
-%{_cross_libdir}/libdevmapper-event.so
 %{_cross_includedir}/libdevmapper.h
-%{_cross_includedir}/libdevmapper-event.h
-%{_cross_pkgconfigdir}/devmapper-event.pc
 %{_cross_pkgconfigdir}/devmapper.pc
 
 
