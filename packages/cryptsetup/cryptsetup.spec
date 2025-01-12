@@ -25,7 +25,6 @@ Requires: %{_cross_os}libjson-c
 Requires: %{_cross_os}libblkid
 Requires: %{_cross_os}libuuid
 Requires: %{_cross_os}libpopt
-Requires: %{_cross_os}systemd
 Requires: %{_cross_os}aws-lc-fips
 Requires: %{_cross_os}libargon2
 
