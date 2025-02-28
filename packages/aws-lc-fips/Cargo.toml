@@ -13,7 +13,7 @@ releases-url = "https://github.com/aws/aws-lc/archive"
 
 [[package.metadata.build-package.external-files]]
 url = "https://github.com/aws/aws-lc/archive/AWS-LC-FIPS-3.0.0/aws-lc-AWS-LC-FIPS-3.0.0.tar.gz"
-sha512 = "4457edaacd1f93d8f9f71c960272b44004fe9f6dd65ed6a0c4eabd7d870487c9e9ac38efa8375dfeae3729752e9a477719d05f534c33965f546ca4a883e123c8"
+sha512 = "cc394b7c5f9149bc68b59ff23c4db9384deac073c0b96d5047c4d4ea36e82b930eabc03d5978155e7ab5e8617ccfebd67804cb7b19c3a43fdaf96abc48a3e3e2"
 force-upstream = true
 
 [build-dependencies]

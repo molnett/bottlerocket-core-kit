@@ -78,6 +78,14 @@ Patch9014: 9014-meson-make-gpt-auto-generator-selectable-at-build-ti.patch
 # Local patch to fix OpenSSL error format strings.
 Patch9015: 9015-fix-openssl-error-format-strings.patch
 
+# Local patch to remove userspace verity verification.
+# The AWS-LC FIPS provider does not support PKCS7 verification, which is what
+# systemd-cryptsetup uses to verify the dm-verity root hash.
+Patch9016: 9016-aws-lc-fips-compatibility-remove-userspace-verity-verification.patch
+
+# Local patch to fix OpenSSL EVP_CIPHER_block_size() mismatch.
+Patch9017: 9017-aws-lc-fips-evp-cipher-signess-mismatch.patch
+
 BuildRequires: gperf
 BuildRequires: intltool
 BuildRequires: meson
